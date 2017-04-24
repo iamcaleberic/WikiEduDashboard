@@ -94,7 +94,7 @@
     "react-dnd-html5-backend": "^2.3.0",
     "react-dnd-touch-backend": "^0.3.8",
     "react-dom": "^15.5.4",
-    "react-dropzone": "^3.7.3",
+    "react-dropzone": "^3.13.0",
     "react-motion": "^0.4.8",
     "react-onclickoutside": "^5.11.1",
     "react-router": "3.0.0",
@@ -108,9 +108,9 @@
     "rewire": "^2.5.2",
     "run-sequence": "^1.2.2",
     "rupture": "^0.6.2",
-    "should": "^11.1.1",
-    "sinon": "^1.17.6",
-    "sinon-chai": "^2.8.0",
+    "should": "^11.2.1",
+    "sinon": "^2.1.0",
+    "sinon-chai": "^2.9.0",
     "slick-carousel": "git+https://github.com/cfoehrdes/slick.git#a4d85536c42951933e1d887bcc013615e25b03e7",
     "striptags": "^2.1.1",
     "stylus": "0.54.5",
@@ -123,7 +123,7 @@
     "webpack": "^1.13.3",
     "webpack-dev-server": "^1.16.2",
     "webpack-manifest-plugin": "^1.1.0",
-    "wnumb": "^1.0.4"
+    "wnumb": "^1.1.0"
   },
   "scripts": {
     "test": "NODE_ENV=test nyc mocha \"test/**/*.@(js|jsx)\"",
