@@ -22,7 +22,7 @@ describe('markdown', () => {
     it('allows embedded html by default', () => {
       const md = markdownIt();
       const output = md.render('# h1\n\n<h2>test</h2>');
-      const expected = '<h1>h1</h1>\n<p><h2>test</h2></p>\n';
+      const expected = '<h1>h1</h1>\n<h2>test</h2>';
       expect(output).to.eq(expected);
     });
   });
