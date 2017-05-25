@@ -1,7 +1,12 @@
 import React from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
 import CourseLink from './common/course_link.jsx';
 import ServerActions from '../actions/server_actions.js';
 import CourseActions from '../actions/course_actions.js';
+import * as CourseActionsRedux from '../actions/course_actions_redux.js';
+
 import CourseStore from '../stores/course_store.js';
 import UserStore from '../stores/user_store.js';
 import NotificationStore from '../stores/notification_store.js';
@@ -59,7 +64,7 @@ const Course = React.createClass({
     if (!confirm(I18n.t('courses.warn_mirrored'))) { return; }
     const toPass = $.extend(true, {}, this.state.course);
     toPass.submitted = true;
-    return CourseActions.updateCourse(toPass, true);
+    return this.props.actions.updateCourse(toPass, true);
   },
 
   dismissSurvey(surveyNotificationId) {
@@ -241,4 +246,13 @@ const Course = React.createClass({
   }
 });
 
-export default Course;
+const mapStateToProps = state => ({
+  course: state.course.course,
+  courseLoaded: state.course.loaded
+});
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(CourseActionsRedux, dispatch)
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Course);
