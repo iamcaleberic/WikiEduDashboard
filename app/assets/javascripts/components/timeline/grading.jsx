@@ -1,28 +1,34 @@
 import React from 'react';
 import Gradeable from './gradeable.jsx';
-import BlockStore from '../../stores/block_store.js';
+import BlockStore from '../../stores/block_store';
+
+function getState() {
+  return {
+    blocks: BlockStore.getBlocks({ graded: true }).filter(block => block.graded)
+  };
+}
 
 const Grading = React.createClass({
   displayName: 'Grading',
 
-  propTypes: {
-    gradeables: React.PropTypes.array,
-    editable: React.PropTypes.bool,
-    controls: React.PropTypes.func
+  mixins: [BlockStore.mixin],
+
+  getInitialState() {
+    return getState();
+  },
+
+  storeDidChange() {
+    return this.setState(getState());
   },
 
   render() {
     // TODO: Change _.sum to _.sumBy when lodash is upgraded to v4.
-    const total = _.sum(this.props.gradeables, 'points');
-    const gradeables = this.props.gradeables.map((gradeable) => {
-      const block = BlockStore.getBlock(gradeable.gradeable_item_id);
+    const total = _.sum(this.state.blocks, 'points');
+    const gradeables = this.state.blocks.map((block) => {
       return (
         <Gradeable
-          gradeable={gradeable}
+          key={block.id}
           block={block}
-          key={gradeable.id}
-          editable={this.props.editable}
-          total={total}
         />
       );
     });
@@ -44,7 +50,6 @@ const Grading = React.createClass({
         <a name="grading"></a>
         <div className="section-header timeline__grading-container">
           <h3>{I18n.t('timeline.grading_header', { total })}</h3>
-          {this.props.controls(null, this.props.gradeables.length < 1)}
         </div>
         <ul className="list-unstyled timeline__grading-container">
           {gradeables}

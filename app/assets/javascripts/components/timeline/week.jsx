@@ -2,7 +2,6 @@ import React from 'react';
 import Block from './block.jsx';
 import OrderableBlock from './orderable_block.jsx';
 import BlockActions from '../../actions/block_actions.js';
-import GradeableStore from '../../stores/gradeable_store.js';
 
 import ReactCSSTG from 'react-addons-css-transition-group';
 import { Motion, spring } from 'react-motion';
@@ -124,7 +123,6 @@ const Week = React.createClass({
           block={block}
           key={block.id}
           editPermissions={this.props.edit_permissions}
-          gradeable={GradeableStore.getGradeableByBlock(block.id)}
           deleteBlock={this.deleteBlock.bind(this, block.id)}
           week_index={this.props.index}
           weekStart={dateCalc.startDate()}

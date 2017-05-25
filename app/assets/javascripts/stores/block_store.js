@@ -47,7 +47,8 @@ const addBlock = function (weekId) {
     kind: 0,
     title: '',
     content: '',
-    gradeable_id: null,
+    graded: false,
+    points: '0',
     week_id: weekId,
     order: weekBlocks.length,
     duration: null

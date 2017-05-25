@@ -6,14 +6,12 @@ import TrainingModules from './training_modules.jsx';
 import Checkbox from '../common/checkbox.jsx';
 import BlockTypeSelect from './block_type_select.jsx';
 import BlockActions from '../../actions/block_actions.js';
-import GradeableActions from '../../actions/gradeable_actions.js';
 
 const Block = React.createClass({
   displayName: 'Block',
 
   propTypes: {
     block: React.PropTypes.object,
-    gradeable: React.PropTypes.object,
     editableBlockIds: React.PropTypes.array,
     editPermissions: React.PropTypes.bool,
     saveBlockChanges: React.PropTypes.func,
@@ -29,6 +27,12 @@ const Block = React.createClass({
     toPass[valueKey] = value;
     delete toPass.deleteBlock;
     return BlockActions.updateBlock(toPass);
+  },
+
+  toggleGraded() {
+    const newBlock = $.extend(true, {}, this.props.block);
+    newBlock.graded = !newBlock.graded;
+    return BlockActions.updateBlock(newBlock);
   },
 
   passedUpdateBlock(selectedIds) {
@@ -54,16 +58,9 @@ const Block = React.createClass({
     return false;
   },
 
-  updateGradeable(valueKey, value) {
-    if (value === 'true') {
-      return GradeableActions.addGradeable(this.props.block);
-    }
-    return GradeableActions.deleteGradeable(this.props.gradeable.id);
-  },
-
   render() {
     const isEditable = this._isEditable();
-    const isGraded = this.props.gradeable !== undefined && !this.props.gradeable.deleted;
+    const isGraded = this.props.block.graded || false;
     let className = 'block';
     className += ` block-kind-${this.props.block.kind}`;
 
@@ -114,8 +111,8 @@ const Block = React.createClass({
       graded = (
         <Checkbox
           value={isGraded}
-          onChange={this.updateGradeable}
-          value_key={'gradeable'}
+          onChange={this.toggleGraded}
+          value_key={'graded'}
           editable={isEditable}
           label="Graded"
           container_class="graded"

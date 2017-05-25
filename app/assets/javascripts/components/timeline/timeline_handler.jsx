@@ -13,7 +13,6 @@ import TimelineActions from '../../actions/timeline_actions.js';
 import CourseStore from '../../stores/course_store.js';
 import WeekStore from '../../stores/week_store.js';
 import BlockStore from '../../stores/block_store.js';
-import GradeableStore from '../../stores/gradeable_store.js';
 import TrainingStore from '../../training/stores/training_store.js';
 
 const getState = () =>
@@ -21,7 +20,6 @@ const getState = () =>
     loading: WeekStore.getLoadingStatus(),
     weeks: WeekStore.getWeeks(),
     blocks: BlockStore.getBlocks(),
-    gradeables: GradeableStore.getGradeables(),
     all_training_modules: TrainingStore.getAllModules(),
     editable_block_ids: BlockStore.getEditableBlockIds(),
     course: CourseStore.getCourse()
@@ -38,7 +36,6 @@ const TimelineHandler = React.createClass({
     children: React.PropTypes.node,
     controls: React.PropTypes.func,
     weeks: React.PropTypes.array,
-    gradeables: React.PropTypes.array,
     loading: React.PropTypes.bool,
     editable_block_ids: React.PropTypes.array,
     all_training_modules: React.PropTypes.array
@@ -98,17 +95,18 @@ const TimelineHandler = React.createClass({
     }
 
     // Grading
-    let showGrading;
-    if (this.state.reorderable) {
-      showGrading = false;
-    } else if (this.props.current_user.admin || this.props.current_user.role > 0) {
-      showGrading = true;
-    } else if (this.props.gradeables.length === 0) {
-      showGrading = false;
-    } else {
-      showGrading = true;
-    }
-    const grading = showGrading ? <Grading {...this.props} /> : null;
+    // let showGrading;
+    // if (this.state.reorderable) {
+    //   showGrading = false;
+    // } else if (this.props.current_user.admin || this.props.current_user.role > 0) {
+    //   showGrading = true;
+    // } else if (this.props.gradeables.length === 0) {
+    //   showGrading = false;
+    // } else {
+    //   showGrading = true;
+    // }
+    // const grading = showGrading ? <Grading {...this.props} /> : null;
+    const grading = <Grading />;
 
     return (
       <div>
@@ -142,4 +140,4 @@ const TimelineHandler = React.createClass({
   }
 });
 
-export default Editable(TimelineHandler, [CourseStore, WeekStore, BlockStore, GradeableStore, TrainingStore], TimelineActions.persistTimeline, getState);
+export default Editable(TimelineHandler, [CourseStore, WeekStore, BlockStore, TrainingStore], TimelineActions.persistTimeline, getState);

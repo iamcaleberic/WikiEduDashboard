@@ -35,24 +35,16 @@ class TimelineController < ApplicationController
     blocks.each { |block| update_block(block) }
   end
 
+  DEFAULT_GRADEABLE_POINTS = 10
   def update_block(block)
     gradeable = block['gradeable']
     block.delete 'gradeable'
     block['week_id'] = @week.id
-    @block = update_util Block, block
-
-    return if block['deleted'] || gradeable.nil?
-    update_gradeable(gradeable)
-  end
-
-  DEFAULT_GRADEABLE_POINTS = 10
-  def update_gradeable(gradeable)
-    gradeable['gradeable_item_id'] = @block.id
-    gradeable['gradeable_item_type'] = 'block'
-    gradeable['points'] = gradeable['points'] || DEFAULT_GRADEABLE_POINTS
-    @gradeable = update_util Gradeable, gradeable
-    gradeable_id = Gradeable.exists?(@gradeable.id) ? @gradeable.id : nil
-    @block.update(gradeable_id: gradeable_id)
+    unless gradeable.nil?
+      block['points'] = gradeable['points'] || DEFAULT_GRADEABLE_POINTS
+      block['graded'] = true
+    end
+    update_util Block, block
   end
 
   def update_util(model, object)
